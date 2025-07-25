@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BRZ 2025</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header__content">
+                <div class="header__logo">
+                    <h1>POKOJOWY PATROL</h1>
+                    <p>Biuro Rzeczy Znalezionych</p>
+                </div>
+                <div class="header__stats">
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalItems">0</span>
+                        <span class="stat-label">Przedmioty</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="foundItems">0</span>
+                        <span class="stat-label">Znaleziono</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="returnedItems">0</span>
+                        <span class="stat-label">Wydano</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="nav">
+        <div class="container">
+            <div class="nav__tabs">
+                <button class="nav__tab nav__tab--active" data-tab="dashboard">Panel główny</button>
+                <button class="nav__tab" data-tab="add">Dodaj przedmiot</button>
+                <button class="nav__tab" data-tab="search">Wyszukaj</button>
+                <button class="nav__tab" data-tab="export">Eksport</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main">
+        <div class="container">
+            <div id="dashboard" class="tab-content tab-content--active">
+                <h2>Panel główny</h2>
+                <div class="dashboard__cards">
+                    <div class="dashboard__card">
+                        <h3>Statystyki według kategorii</h3>
+                        <div id="categoryStats" class="stats-grid"></div>
+                    </div>
+                    <div class="dashboard__card">
+                        <h3>Ostatnio dodane przedmioty</h3>
+                        <div id="recentItems" class="recent-items"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="add" class="tab-content">
+                <h2>Dodaj przedmiot</h2>
+                <form id="addItemForm" class="form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="category" class="form-label">Kategoria *</label>
+                            <select id="category" class="form-control" required>
+                                <option value="">Wybierz kategorię</option>
+                                <option value="Dokumenty">Dokumenty</option>
+                                <option value="Portfele">Portfele</option>
+                                <option value="Plecaki i nerki">Plecaki i nerki</option>
+                                <option value="Telefony">Telefony</option>
+                                <option value="Elektronika">Elektronika</option>
+                                <option value="Klucze">Klucze</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="itemNumber" class="form-label">Numer przedmiotu (ZWERYFIKUJ POPRAWNOŚĆ!)</label>
+                            <input type="text" id="itemNumber" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fullName" class="form-label">Imię i nazwisko</label>
+                            <input type="text" id="fullName" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="address" class="form-label">Adres</label>
+                            <input type="text" id="address" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="form-label">Opis *</label>
+                        <textarea id="description" class="form-control" rows="3" required></textarea>
+                    </div>
+                    <div id="documentTypeGroup" class="form-group hidden">
+                        <label for="documentType" class="form-label">Typ dokumentu</label>
+                        <select id="documentType" class="form-control">
+                            <option value="">Wybierz typ dokumentu</option>
+                            <option value="Dowód osobisty">Dowód osobisty</option>
+                            <option value="Prawo jazdy">Prawo jazdy</option>
+                            <option value="Legitymacja">Legitymacja</option>
+                            <option value="Karta płatnicza">Karta płatnicza</option>
+                            <option value="Inne">Inne</option>
+                        </select>
+                    </div>
+                    <div id="phoneBrandGroup" class="form-group hidden">
+                        <label for="phoneBrand" class="form-label">Marka telefonu</label>
+                        <select id="phoneBrand" class="form-control">
+                            <option value="">Wybierz markę</option>
+                            <option value="Apple">Apple</option>
+                            <option value="ASUS">ASUS</option>
+                            <option value="CMF">CMF</option>
+                            <option value="Google">Google</option>
+                            <option value="Honor">Honor</option>
+                            <option value="Huawei">Huawei</option>
+                            <option value="Infinix">Infinix</option>
+                            <option value="Motorola">Motorola</option>
+                            <option value="Nokia">Nokia</option>
+                            <option value="Nothing">Nothing</option>
+                            <option value="OnePlus">OnePlus</option>
+                            <option value="OPPO">OPPO</option>
+                            <option value="POCO">POCO</option>
+                            <option value="Realme">Realme</option>
+                            <option value="Redmi">Redmi</option>
+                            <option value="Samsung">Samsung</option>
+                            <option value="Sony">Sony</option>
+                            <option value="Tecno">Tecno</option>
+                            <option value="Vivo">Vivo</option>
+                            <option value="Xiaomi">Xiaomi</option>
+                            <option value="Inny">Inny</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="receivingPerson" class="form-label">Osoba przyjmująca *</label>
+                            <select id="receivingPerson" class="form-control" required>
+                                <option value="">Wybierz osobę</option>
+                                <option value="Adam Pajęcki">Adam Pajęcki</option>
+                                <option value="Jarosław Bawelski">Jarosław Bawelski</option>
+                                <option value="Karolina Rentel">Karolina Rentel</option>
+                                <option value="Katarzyna Młodzińska">Katarzyna Młodzińska</option>
+                                <option value="Magdalena Kiraga">Magdalena Kiraga</option>
+                                <option value="Marcin Kotarski">Marcin Kotarski</option>
+                                <option value="Mariusz Holewski">Mariusz Holewski</option>
+                                <option value="Mikołaj Matusiak">Mikołaj Matusiak</option>
+                                <option value="Nicole Kmieć">Nicole Kmieć</option>
+								<option value="Olga Sołtysiak">Olga Sołtysiak</option>
+                                <option value="Tomasz Skrzypaszek">Tomasz Skrzypaszek</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="status" class="form-label">Status *</label>
+                            <select id="status" class="form-control" required>
+                                <option value="Znaleziony">Znaleziony</option>
+                                <option value="Wydany">Wydany</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn--primary btn--full-width">Dodaj przedmiot (automatyczny druk etykiety)</button>
+                    </div>
+                </form>
+            </div>
+
+            <div id="search" class="tab-content">
+                <h2>Wyszukaj przedmioty</h2>
+                <div class="search-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="searchLP" class="form-label">Numer przedmiotu</label>
+                            <input type="text" id="searchLP" class="form-control" placeholder="Wyszukaj po numerze LP">
+                        </div>
+                        <div class="form-group">
+                            <label for="searchName" class="form-label">Imię i nazwisko</label>
+                            <input type="text" id="searchName" class="form-control" placeholder="Wyszukaj po imieniu i nazwisku">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="searchCategory" class="form-label">Kategoria</label>
+                            <select id="searchCategory" class="form-control">
+                                <option value="">Wszystkie kategorie</option>
+                                <option value="Dokumenty">Dokumenty</option>
+                                <option value="Portfele">Portfele</option>
+                                <option value="Plecaki i nerki">Plecaki i nerki</option>
+                                <option value="Telefony">Telefony</option>
+                                <option value="Elektronika">Elektronika</option>
+                                <option value="Klucze">Klucze</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="searchBrand" class="form-label">Marka telefonu</label>
+                            <select id="searchBrand" class="form-control">
+                                <option value="">Wszystkie marki</option>
+                                <option value="Apple">Apple</option>
+                                <option value="ASUS">ASUS</option>
+                                <option value="CMF">CMF</option>
+                                <option value="Google">Google</option>
+                                <option value="Honor">Honor</option>
+                                <option value="Huawei">Huawei</option>
+                                <option value="Infinix">Infinix</option>
+                                <option value="Motorola">Motorola</option>
+                                <option value="Nokia">Nokia</option>
+                                <option value="Nothing">Nothing</option>
+                                <option value="OnePlus">OnePlus</option>
+                                <option value="OPPO">OPPO</option>
+                                <option value="POCO">POCO</option>
+                                <option value="Realme">Realme</option>
+                                <option value="Redmi">Redmi</option>
+                                <option value="Samsung">Samsung</option>
+                                <option value="Sony">Sony</option>
+                                <option value="Tecno">Tecno</option>
+                                <option value="Vivo">Vivo</option>
+                                <option value="Xiaomi">Xiaomi</option>
+                                <option value="Inny">Inny</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="searchStatus" class="form-label">Status</label>
+                            <select id="searchStatus" class="form-control">
+                                <option value="">Wszystkie statusy</option>
+                                <option value="Znaleziony">Znaleziony</option>
+                                <option value="Wydany">Wydany</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="search-actions">
+                        <button id="clearSearch" class="btn btn--secondary">Wyczyść filtry</button>
+                    </div>
+                </div>
+                <div class="search-results">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>LP</th>
+                                <th>Kategoria</th>
+                                <th>Imię/Nazwisko</th>
+                                <th>Adres</th>
+                                <th>Opis</th>
+                                <th>Marka</th>
+                                <th>Status</th>
+                                <th>Data</th>
+                                <th>Osoba</th>
+                                <th>Akcje</th>
+                            </tr>
+                        </thead>
+                        <tbody id="searchResultsBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="export" class="tab-content">
+                <h2>Eksport i backup</h2>
+                <div class="export__cards">
+                    <div class="export__card">
+                        <h3>Eksport do Excel</h3>
+                        <p>Wyeksportuj wszystkie dane do pliku Excel</p>
+                        <button id="exportExcel" class="btn btn--primary">Eksportuj do Excel</button>
+                    </div>
+                    <div class="export__card">
+                        <h3>Backup danych</h3>
+                        <p>Utwórz kopię zapasową bazy danych</p>
+                        <button id="createBackup" class="btn btn--primary">Utwórz backup</button>
+                    </div>
+                    <div class="export__card">
+                        <h3>Przywróć z backup</h3>
+                        <p>Lista dostępnych kopii zapasowych</p>
+                        <div id="backupsList"></div>
+                        <button id="refreshBackups" class="btn btn--secondary">Odśwież listę</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="printModal" class="modal">
+        <div class="modal__overlay">
+            <div class="modal__content">
+                <div class="modal__header">
+                    <h3>Etykieta do druku</h3>
+                    <button id="closePrintModal" class="modal__close">&times;</button>
+                </div>
+                <div class="modal__body">
+                    <div id="printLabel" class="print-label"></div>
+                </div>
+                <div class="modal__actions">
+                    <button id="printButton" class="btn btn--primary">Drukuj</button>
+                    <button id="cancelPrint" class="btn btn--secondary">Anuluj</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="notifications" class="notifications"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
